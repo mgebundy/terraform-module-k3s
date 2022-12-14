@@ -1,47 +1,47 @@
-output "kubernetes" {
-  description = "Authentication credentials of Kubernetes (full administrator)."
-  value = {
-    cluster_ca_certificate = local.cluster_ca_certificate
-    client_certificate     = local.client_certificate
-    client_key             = local.client_key
-    api_endpoint           = "https://${local.root_server_connection.host}:6443"
-    password               = null
-    username               = null
-  }
-  sensitive = true
-}
+# output "kubernetes" {
+#   description = "Authentication credentials of Kubernetes (full administrator)."
+#   value = {
+#     cluster_ca_certificate = local.cluster_ca_certificate
+#     client_certificate     = local.client_certificate
+#     client_key             = local.client_key
+#     api_endpoint           = "https://${local.root_server_connection.host}:6443"
+#     password               = null
+#     username               = null
+#   }
+#   sensitive = true
+# }
 
-output "kube_config" {
-  description = "Genereated kubeconfig."
-  value = var.generate_ca_certificates == false ? null : yamlencode({
-    apiVersion = "v1"
-    clusters = [{
-      cluster = {
-        certificate-authority-data = base64encode(local.cluster_ca_certificate)
-        server                     = "https://${local.root_server_connection.host}:6443"
-      }
-      name = var.cluster_domain
-    }]
-    contexts = [{
-      context = {
-        cluster = var.cluster_domain
-        user : "master-user"
-      }
-      name = var.cluster_domain
-    }]
-    current-context = var.cluster_domain
-    kind            = "Config"
-    preferences     = {}
-    users = [{
-      user = {
-        client-certificate-data : base64encode(local.client_certificate)
-        client-key-data : base64encode(local.client_key)
-      }
-      name : "master-user"
-    }]
-  })
-  sensitive = true
-}
+# output "kube_config" {
+#   description = "Genereated kubeconfig."
+#   value = var.generate_ca_certificates == false ? null : yamlencode({
+#     apiVersion = "v1"
+#     clusters = [{
+#       cluster = {
+#         certificate-authority-data = base64encode(local.cluster_ca_certificate)
+#         server                     = "https://${local.root_server_connection.host}:6443"
+#       }
+#       name = var.cluster_domain
+#     }]
+#     contexts = [{
+#       context = {
+#         cluster = var.cluster_domain
+#         user : "master-user"
+#       }
+#       name = var.cluster_domain
+#     }]
+#     current-context = var.cluster_domain
+#     kind            = "Config"
+#     preferences     = {}
+#     users = [{
+#       user = {
+#         client-certificate-data : base64encode(local.client_certificate)
+#         client-key-data : base64encode(local.client_key)
+#       }
+#       name : "master-user"
+#     }]
+#   })
+#   sensitive = true
+# }
 
 output "summary" {
   description = "Current state of k3s (version & nodes)."
@@ -73,8 +73,8 @@ output "kubernetes_ready" {
   value       = null_resource.kubernetes_ready
 }
 
-output "kubernetes_cluster_secret" {
-  description = "Secret token used to join nodes to the cluster"
-  value       = random_password.k3s_cluster_secret.result
-  sensitive   = true
-}
+# output "kubernetes_cluster_secret" {
+#   description = "Secret token used to join nodes to the cluster"
+#   value       = random_password.k3s_cluster_secret.result
+#   sensitive   = true
+# }
