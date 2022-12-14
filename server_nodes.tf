@@ -206,7 +206,7 @@ resource "null_resource" "servers_install" {
   provisioner "remote-exec" {
     inline = [
       "INSTALL_K3S_VERSION=${local.k3s_version} sh /tmp/k3s-installer server ${local.servers_metadata[each.key].flags}",
-      "until ${local.kubectl_cmd} get node ${local.servers_metadata[each.key].name}; do sleep 1; done"
+      "until systemctl is-active --quiet k3s.service; do sleep 1; done"
     ]
   }
 }
