@@ -23,7 +23,7 @@ settings:
   default: true
   description: true
   required: true
-  sensitive: true
+  # sensitive: true
 
 content: |
   # terraform-module-k3s
